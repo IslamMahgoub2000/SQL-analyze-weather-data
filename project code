@@ -1,0 +1,64 @@
+## i used noaa_gsod dataset to extract temperature,wind speed ,precipitation for stations La Guardia and JFK,for everyday in 2020
+SELECT
+  stn,
+
+  date,
+
+   IF(
+
+        temp=9999.9,
+        NULL,
+        temp) AS temperature,
+
+  
+       IF(
+
+        wdsp="999.9",
+        NULL,
+        CAST(wdsp AS Float64)) AS wind_speed,
+
+ IF(
+
+       prcp=99.99,
+       0,
+       prcp) AS precipitation
+FROM
+  `bigquery-public-data.noaa_gsod.gsod2020`
+WHERE
+  stn="725030" -- La Guardia
+
+  OR stn="744860" -- JFK
+ORDER BY
+  date DESC,
+  stn ASC
+  ## after that i used a new dataset to get average temperature and average wind speed
+  ## average temperature in june
+  SELECT
+
+AVG(temperature)
+
+FROM
+
+`islam-datw.demos.weather_data` 
+
+WHERE
+
+date BETWEEN '2020-06-01' AND '2020-06-30'
+
+## average wind speed in december
+select
+AVG(wind_speed)
+  FROM
+
+`islam-datw.demos.weather_data` 
+
+WHERE
+
+date BETWEEN '2020-12-01' AND '2020-12-31'
+  
+  
+  
+  
+  
+  
+  
